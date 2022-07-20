@@ -1,5 +1,5 @@
 import '../../../../core/data/model/api_response.dart';
-import '../entities/number_trivia.dart';
+import '../../data/models/NumberTrivia.dart';
 import '../repositories/number_trivia_repository.dart';
 import 'number_trivia_usecase.dart';
 

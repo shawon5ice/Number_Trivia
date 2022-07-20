@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ca_number_trivia">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
    <application
         android:label="ca_number_trivia"
         android:name="${applicationName}"

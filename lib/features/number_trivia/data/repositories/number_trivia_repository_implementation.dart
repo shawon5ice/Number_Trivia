@@ -5,8 +5,6 @@ import 'package:ca_number_trivia/core/utils/constant.dart';
 import 'package:ca_number_trivia/core/utils/end_points.dart';
 import 'package:ca_number_trivia/features/number_trivia/domain/repositories/number_trivia_repository.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-
 import '../../../../core/data/sources/dio_client.dart';
 import '../../../../core/logger/logger.dart';
 import '../../../../core/utils/message.dart';
@@ -40,35 +38,49 @@ class NumberTriviaRepositoryImplementation implements NumberTriviaRepository {
   final DioClient _dioClient = locator<DioClient>();
 
   @override
-  Future<Response<NumberTrivia>?> getRandomNumberTrivia() async{
-    Response<NumberTrivia>? _apiResponse =  Response.error(tryAgainErrorMessage, 400);
-    await _dioClient.post(
-      path: randomNumberEndPoint,
-      responseCallback: (response, message){
+  Future<NumberTrivia?> getRandomNumberTrivia() async{
+    NumberTrivia? _apiResponse;
+
+    try {
+      var response = await http.get(Uri.parse(baseUrl+randomNumberEndPoint));
+      print(baseUrl+randomNumberEndPoint);
+
+      if(response.statusCode==200){
         logger.printDebugLog(response);
-        _apiResponse = Response.success(NumberTrivia.fromJson(response));
-      },
-      failureCallback: (message, statusCode){
-        logger.printErrorLog(message);
-        _apiResponse = Response.error(message, statusCode);
-      },
-    );
+        _apiResponse = NumberTrivia.fromJson(response.body);
+      }
+    } on Exception catch (e) {
+      logger.printErrorLog(e);
+    }
+    // await _dioClient.post(
+    //   path: randomNumberEndPoint,
+    //   responseCallback: (response, message){
+    //     logger.printDebugLog(response);
+    //     _apiResponse = Response.success(NumberTrivia.fromJson(response));
+    //   },
+    //   failureCallback: (message, statusCode){
+    //     logger.printErrorLog(message);
+    //     _apiResponse = Response.error(message, statusCode);
+    //   },
+    // );
     return _apiResponse;
   }
 
+
+
   @override
-  Future<Response<NumberTrivia>?> getCustomNumberTrivia(int number) async {
-    Response<NumberTrivia>? _apiResponse =  Response.error(tryAgainErrorMessage, 400);
+  Future<NumberTrivia?> getCustomNumberTrivia(int number) async {
+    NumberTrivia? _apiResponse;
     await _dioClient.post(
       path: randomNumberEndPoint,
       request: number,
       responseCallback: (response, message){
         logger.printDebugLog(response);
-        _apiResponse = Response.success(NumberTrivia.fromJson(response));
+        _apiResponse =NumberTrivia.fromJson(response);
       },
       failureCallback: (message, statusCode){
         logger.printErrorLog(message);
-        _apiResponse = Response.error(message, statusCode);
+        // _apiResponse = Response.error(message, statusCode);
       },
     );
     return _apiResponse;

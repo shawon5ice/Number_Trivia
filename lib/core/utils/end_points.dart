@@ -1,1 +1,1 @@
-const String randomNumberEndPoint = "/random?json";
+const String randomNumberEndPoint = "random?json";

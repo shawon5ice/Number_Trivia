@@ -9,7 +9,7 @@ class RandomNumberTriviaUseCase extends NumberTriviaUseCase {
 
   RandomNumberTriviaUseCase(NumberTriviaRepository numberTriviaRepository) : super(numberTriviaRepository);
 
-  Future<Response<NumberTrivia>?> fetchRandomNumberTrivia() async {
+  Future<NumberTrivia?> fetchRandomNumberTrivia() async {
     return await numberTriviaRepository.getRandomNumberTrivia();
   }
 }

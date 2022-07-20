@@ -22,18 +22,27 @@ class _NumberTriviaPageState extends State<NumberTriviaPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
-      builder: (context, state) {
-        return Column(
-          children: [
-            Card(
-              child: Text(
-               'Hello'
+    return Scaffold(
+      appBar: AppBar(title: Text('Number Trivia'),),
+      body: BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
+        builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Card(
+                child: Text(
+                 state is FetchTriviaSuccess? state.text : 'Loading...'
+                ),
               ),
-            )
-          ],
-        );
-      },
+              ElevatedButton(onPressed: (){
+                _numberTriviaBloc.add(FetchRandomTriviaEvent());
+              },
+                  child: state is OnLoading? CircularProgressIndicator():Text('Get Trivia'))
+            ],
+          );
+        },
+      ),
     );
   }
 }

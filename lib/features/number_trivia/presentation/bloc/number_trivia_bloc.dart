@@ -23,15 +23,15 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     emit(OnLoading());
     var response = await useCase.fetchRandomNumberTrivia();
 
-    if(response?.status==Status.success && response!.data != null){
+    if(response!=null){
 
       emit(FetchTriviaSuccess(
-          text: response.data!.text.toString(),
-          number: response.data!.number.toString(),
-          type: response.data!.type.toString()));
+          text: response.text.toString(),
+          number: response.number.toString(),
+          type: response.type.toString()));
     } else {
       logger.printDebugLog('I am here');
-      emit(OnFailure(response?.message??tryAgainErrorMessage));
+      emit(OnFailure(tryAgainErrorMessage));
     }
   }
 }

@@ -7,7 +7,7 @@ class CustomNumberTriviaUseCase extends NumberTriviaUseCase {
 
   CustomNumberTriviaUseCase(NumberTriviaRepository numberTriviaRepository) : super(numberTriviaRepository);
 
-  Future<Response<NumberTrivia>?> fetchCustomNumberTrivia({required int number}) async {
+  Future<NumberTrivia?> fetchCustomNumberTrivia({required int number}) async {
     return await numberTriviaRepository.getCustomNumberTrivia(number);
   }
 }

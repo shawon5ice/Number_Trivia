@@ -19,6 +19,7 @@ class AppComponent {
     ))
       ..interceptors.add(Logging()));
     locator.registerFactory<DioClient>(() => DioClient(locator<Dio>()));
-    locator.registerFactory<NumberTriviaRepository>(() => NumberTriviaRepositoryImplementation());
+    locator.registerFactory<NumberTriviaRepositoryImplementation>(() => NumberTriviaRepositoryImplementation());
+    locator.registerFactory<NumberTriviaRepository>(() => locator<NumberTriviaRepositoryImplementation>());
   }
 }

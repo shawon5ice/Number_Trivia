@@ -19,3 +19,12 @@ class FetchCustomTriviaEvent extends NumberTriviaEvent {
   @override
   List<Object?> get props => [number];
 }
+
+class InputFormValidation extends NumberTriviaEvent {
+  final String? number;
+
+  InputFormValidation(this.number);
+
+  @override
+  List<Object?> get props => [number];
+}

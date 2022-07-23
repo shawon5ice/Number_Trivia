@@ -1,11 +1,10 @@
+import 'package:ca_number_trivia/core/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../../../core/theme/ThemeSetting.dart';
 
-import '../../../../core/theme/theme_manager.dart';
 import '../bloc/number_trivia_bloc.dart';
 
 class NumberTriviaPage extends StatefulWidget {
@@ -14,8 +13,6 @@ class NumberTriviaPage extends StatefulWidget {
   @override
   State<NumberTriviaPage> createState() => _NumberTriviaPageState();
 }
-
-ThemeManager _themeManager = ThemeManager();
 
 class _NumberTriviaPageState extends State<NumberTriviaPage>
     with SingleTickerProviderStateMixin {
@@ -27,7 +24,6 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
 
   @override
   void dispose() {
-    _themeManager.removeListener(themeListner);
     super.dispose();
   }
 
@@ -39,95 +35,30 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
     _tabController = TabController(length: 2, vsync: this);
     _tabController?.addListener(_setActiveTabIndex);
     _customTextEditorController = TextEditingController();
-    _themeManager.addListener(themeListner);
   }
 
-
-  themeListner(){
-    if(mounted){
-      setState(() {
-
-      });
+  themeListner() {
+    if (mounted) {
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FlutterSwitch(
-                      width: 100.0,
-                      height: 55.0,
-                      toggleSize: 45.0,
-                      value: status,
-                      borderRadius: 30.0,
-                      padding: 2.0,
-                      activeToggleColor: Color(0xFF6E40C9),
-                      inactiveToggleColor: Color(0xFF2F363D),
-                      activeSwitchBorder: Border.all(
-                        color: Color(0xFF3C1E70),
-                        width: 6.0,
-                      ),
-                      inactiveSwitchBorder: Border.all(
-                        color: Color(0xFFD1D5DA),
-                        width: 6.0,
-                      ),
-                      activeColor: Color(0xFF271052),
-                      inactiveColor: Colors.white,
-                      activeIcon: Icon(
-                        Icons.nightlight_round,
-                        color: Color(0xFFF8E3A1),
-                      ),
-                      inactiveIcon: Icon(
-                        Icons.wb_sunny,
-                        color: Color(0xFFFFDF5D),
-                      ),
-                      onToggle: (val) {
-                        setState(() {
-                          status = val;
-                          _themeManager.toggleTheme(status);
-                        });
-                      },
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: Text("Value: $status"),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
       appBar: AppBar(
+        elevation: 0,
         title: const Text('Number Trivia'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ThemeSettintg()));
+              },child: Icon(Icons.settings),
+            ),
+          )
+        ],
       ),
       body: BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
         builder: (context, state) {
@@ -322,3 +253,78 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
     );
   }
 }
+
+//
+//
+// drawer: Drawer(
+// child: ListView(
+// // Important: Remove any padding from the ListView.
+// padding: EdgeInsets.zero,
+// children: [
+// DrawerHeader(
+// decoration: BoxDecoration(
+// color: Colors.blue,
+// ),
+// child: Center(
+// child: Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: <Widget>[
+// FlutterSwitch(
+// width: 100.0,
+// height: 55.0,
+// toggleSize: 45.0,
+// value: status,
+// borderRadius: 30.0,
+// padding: 2.0,
+// activeToggleColor: Color(0xFF6E40C9),
+// inactiveToggleColor: Color(0xFF2F363D),
+// activeSwitchBorder: Border.all(
+// color: Color(0xFF3C1E70),
+// width: 6.0,
+// ),
+// inactiveSwitchBorder: Border.all(
+// color: Color(0xFFD1D5DA),
+// width: 6.0,
+// ),
+// activeColor: Color(0xFF271052),
+// inactiveColor: Colors.white,
+// activeIcon: Icon(
+// Icons.nightlight_round,
+// color: Color(0xFFF8E3A1),
+// ),
+// inactiveIcon: Icon(
+// Icons.wb_sunny,
+// color: Color(0xFFFFDF5D),
+// ),
+// onToggle: (val) {
+// setState(() {
+// status = val;
+// _themeManager.toggleTheme(status);
+// });
+// },
+// ),
+// Container(
+// alignment: Alignment.centerRight,
+// child: Text("Value: $status"),
+// ),
+// ],
+// ),
+// ),
+// ),
+// ListTile(
+// title: const Text('Item 1'),
+// onTap: () {
+// // Update the state of the app.
+// // ...
+// },
+// ),
+// ListTile(
+// title: const Text('Item 2'),
+// onTap: () {
+// // Update the state of the app.
+// // ...
+// },
+// ),
+// ],
+// ),
+// ),

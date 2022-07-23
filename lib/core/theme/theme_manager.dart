@@ -34,7 +34,7 @@ class ThemeNotifier with ChangeNotifier {
     if(themeMode == 'light-blue'){
       _themeData = appThemeData[AppTheme.BlueLight];
     }else if(themeMode == 'dark-blue'){
-      _themeData = appThemeData[AppTheme.BlueDark];
+      _themeData = appThemeData[AppTheme.Dark];
     }else if(themeMode == 'dark-green'){
       _themeData = appThemeData[AppTheme.GreenDark];
     }else{
@@ -78,7 +78,7 @@ class ThemeNotifier with ChangeNotifier {
     notifyListeners();
   }
   void setDarkBlue() async {
-    _themeData = appThemeData[AppTheme.BlueDark];
+    _themeData = appThemeData[AppTheme.Dark];
     session.theme = 'dark-blue';
     notifyListeners();
   }

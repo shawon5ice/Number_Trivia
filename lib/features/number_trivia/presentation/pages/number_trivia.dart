@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/theme/ThemeSetting.dart';
 
 import '../bloc/number_trivia_bloc.dart';
@@ -53,9 +54,11 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: InkWell(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ThemeSettintg()));
-              },child: Icon(Icons.settings),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ThemeSettintg()));
+              },
+              child: Icon(Icons.settings),
             ),
           )
         ],
@@ -121,18 +124,35 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
                             : () {
                                 _numberTriviaBloc.add(FetchRandomTriviaEvent());
                               },
-                        child: const Text('Get a random Trivia'),
+                        child: const SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: Center(
+                                child: Text(
+                              'Get a random Trivia',
+                              style: TextStyle(fontSize: 24),
+                            ))),
                       )
                     : ElevatedButton(
-                        style: const ButtonStyle(),
                         onPressed: state is OnLoading
                             ? null
                             : () {
-                                _numberTriviaBloc.add(FetchCustomTriviaEvent(
+                                _numberTriviaBloc.add(
+                                  FetchCustomTriviaEvent(
                                     int.parse(
-                                        (_customTextEditorController.text))));
+                                      (_customTextEditorController.text),
+                                    ),
+                                  ),
+                                );
                               },
-                        child: const Text('Get a your Trivia'),
+                        child: const SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: Center(
+                                child: Text(
+                              'Get your Trivia',
+                              style: TextStyle(fontSize: 24),
+                            ))),
                       ),
               ],
             ),
@@ -156,100 +176,107 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
   }
 
   _getRandomTrivia(NumberTriviaState state) {
-    return Column(
-      children: [
-        Card(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          elevation: 5,
-          color: state is OnLoading
-              ? Colors.yellow
-              : state is OnFailure
-                  ? Colors.red
-                  : state is FetchTriviaSuccess
-                      ? Colors.green
-                      : Colors.white,
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height / 3,
-            child: Center(
-              child: state is OnLoading
-                  ? const SpinKitSquareCircle(
-                      color: Colors.black,
-                    )
-                  : Text(
-                      state is OnFailure
-                          ? 'Failed...'
+    return Consumer<ThemeNotifier>(
+        builder: (context, theme, _) => Column(
+              children: [
+                Card(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  elevation: 5,
+                  color: state is OnLoading
+                      ? theme.getTheme().secondaryHeaderColor
+                      : state is OnFailure
+                          ? Colors.red
                           : state is FetchTriviaSuccess
-                              ? state.text
-                              : 'You not clicked for trivia',
-                      style: const TextStyle(fontSize: 30),
-                      textAlign: TextAlign.center,
+                              ? theme.getTheme().primaryColor
+                              : theme.getTheme().secondaryHeaderColor,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: Center(
+                      child: state is OnLoading
+                          ? SpinKitSquareCircle(
+                              color: theme.getTheme().primaryColorDark,
+                            )
+                          : SingleChildScrollView(
+                              child: Text(
+                                state is OnFailure
+                                    ? 'Failed...'
+                                    : state is FetchTriviaSuccess
+                                        ? state.text
+                                        : 'You not clicked for trivia',
+                                style: const TextStyle(fontSize: 30),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                     ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-      ],
-    );
+                  ),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+              ],
+            ));
   }
 
   _getCustomTrivia(NumberTriviaState state) {
-    return Column(
-      children: [
-        Card(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          elevation: 5,
-          color: state is OnLoading
-              ? Colors.yellow
-              : state is OnFailure
-                  ? Colors.red
-                  : state is FetchTriviaSuccess
-                      ? Colors.green
-                      : Colors.white,
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height / 3,
-            child: Center(
-              child: state is OnLoading
-                  ? const SpinKitSquareCircle(
-                      color: Colors.black,
-                    )
-                  : Text(
-                      state is OnFailure
-                          ? 'Failed...'
-                          : state is FetchTriviaSuccess
-                              ? state.text
-                              : 'You not clicked for trivia',
-                      style: const TextStyle(fontSize: 30),
-                      textAlign: TextAlign.center,
-                    ),
+    return Consumer<ThemeNotifier>(
+      builder: (context, theme, _) => Column(
+        children: [
+          Card(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            elevation: 5,
+            color: state is OnLoading
+                ? theme.getTheme().secondaryHeaderColor
+                : state is OnFailure
+                    ? Colors.red
+                    : state is FetchTriviaSuccess
+                        ? theme.getTheme().primaryColor
+                        : theme.getTheme().secondaryHeaderColor,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 3,
+              child: Center(
+                child: state is OnLoading
+                    ? const SpinKitSquareCircle(
+                        color: Colors.black,
+                      )
+                    : SingleChildScrollView(
+                        child: Text(
+                          state is OnFailure
+                              ? 'Failed...'
+                              : state is FetchTriviaSuccess
+                                  ? state.text
+                                  : 'You not clicked for trivia',
+                          style: const TextStyle(fontSize: 30),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          height: 24,
-        ),
-        TextField(
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          controller: _customTextEditorController,
-          decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              hintText: 'Enter a number',
-              errorText: _customTextEditorController.text.isEmpty
-                  ? "Please enter a number"
-                  : '',
-              errorBorder: null),
-        ),
-      ],
+          const SizedBox(
+            height: 24,
+          ),
+          TextField(
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            controller: _customTextEditorController,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                hintText: 'Enter a number',
+                errorText: _customTextEditorController.text.isEmpty
+                    ? "Please enter a number"
+                    : null,
+                errorBorder: null),
+          ),
+        ],
+      ),
     );
   }
 }

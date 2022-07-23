@@ -18,8 +18,12 @@ class Themes {
   );
 
   static final dark = ThemeData(
+    primarySwatch: Colors.grey,
+    primaryColor: Colors.black,
     brightness: Brightness.dark,
-    primaryColor: darkGreyClr,
-    colorScheme: ColorScheme.dark(),
+    backgroundColor: const Color(0xFF212121),
+    accentColor: Colors.white,
+    accentIconTheme: IconThemeData(color: Colors.black),
+    dividerColor: Colors.black12,
   );
 }

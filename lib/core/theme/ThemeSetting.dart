@@ -26,7 +26,7 @@ class ThemeSettintg extends StatelessWidget {
               color: appThemeData[itemAppTheme]!.primaryColor,
               child: ListTile(
                 title: Text(
-                  itemAppTheme.toString(),
+                  itemAppTheme.toString().split('.')[1],
                   // To show light text with the dark variants...
                   style: appThemeData[itemAppTheme]!.textTheme.bodyText1,
                 ),

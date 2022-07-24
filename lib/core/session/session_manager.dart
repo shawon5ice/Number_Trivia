@@ -14,4 +14,8 @@ class SessionManager {
 
   set theme(String? value) => _prefManager.saveString(currentTheme, value ?? "light");
 
+  double? get fontSize => _prefManager.getDoubleValue(currentFontSize);
+
+  set fontSize(double? value) => _prefManager.saveDouble(currentFontSize, value ?? 24);
+
 }

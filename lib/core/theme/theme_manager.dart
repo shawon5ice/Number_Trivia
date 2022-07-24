@@ -29,14 +29,19 @@ class ThemeNotifier with ChangeNotifier {
   ThemeData? _themeData;
   ThemeData getTheme() => _themeData!;
 
+  double? _fontSize;
+  double getFontSize() => _fontSize!;
+
   ThemeNotifier() {
+    var fontSize = session.fontSize;
+    _fontSize= fontSize;
     var themeMode = session.theme;
     if(themeMode == 'light-blue'){
       _themeData = appThemeData[AppTheme.BlueLight];
     }else if(themeMode == 'dark-blue'){
       _themeData = appThemeData[AppTheme.Dark];
     }else if(themeMode == 'dark-green'){
-      _themeData = appThemeData[AppTheme.GreenDark];
+      _themeData = appThemeData[AppTheme.Teal];
     }else{
       _themeData = appThemeData[AppTheme.GreenLight];
     }
@@ -61,13 +66,19 @@ class ThemeNotifier with ChangeNotifier {
     notifyListeners();
   }
 
+  void setFontSize(double fontS) async{
+    _fontSize = fontS;
+    session.fontSize = fontS;
+    notifyListeners();
+  }
+
   void setLightGreen() async {
     _themeData = appThemeData[AppTheme.GreenLight];
     session.theme = 'light-green';
     notifyListeners();
   }
   void setDarkGreen() async {
-    _themeData = appThemeData[AppTheme.GreenDark];
+    _themeData = appThemeData[AppTheme.Teal];
     session.theme = 'dark-green';
     notifyListeners();
   }

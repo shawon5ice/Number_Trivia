@@ -208,7 +208,7 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
                                     : state is FetchTriviaSuccess
                                         ? state.text
                                         : 'You not clicked for trivia',
-                                style: const TextStyle(fontSize: 30),
+                                style: TextStyle(fontSize: theme.getFontSize()),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -253,7 +253,7 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
                               : state is FetchTriviaSuccess
                                   ? state.text
                                   : 'You not clicked for trivia',
-                          style: const TextStyle(fontSize: 30),
+                          style: TextStyle(fontSize: theme.getFontSize()),
                           textAlign: TextAlign.center,
                         ),
                       ),

@@ -136,15 +136,17 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
                     : ElevatedButton(
                         onPressed: state is OnLoading
                             ? null
-                            : () {
-                                _numberTriviaBloc.add(
-                                  FetchCustomTriviaEvent(
-                                    int.parse(
-                                      (_customTextEditorController.text),
-                                    ),
-                                  ),
-                                );
-                              },
+                            : _customTextEditorController.text.isEmpty
+                                ? null
+                                : () {
+                                    _numberTriviaBloc.add(
+                                      FetchCustomTriviaEvent(
+                                        int.parse(
+                                          (_customTextEditorController.text),
+                                        ),
+                                      ),
+                                    );
+                                  },
                         child: const SizedBox(
                             width: double.infinity,
                             height: 50,
@@ -265,6 +267,7 @@ class _NumberTriviaPageState extends State<NumberTriviaPage>
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             controller: _customTextEditorController,
+            onChanged: (val) => setState(() {}),
             decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
